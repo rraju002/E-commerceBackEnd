@@ -82,10 +82,24 @@ router.post('/', (req, res) => {
       res.status(200).json({ message:"Success!"});
     } catch (err) {
       res.status(400).json(err)
-    }
+    };
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
+  const categoryData = await Category.findByPk(
+      req.params.id,
+      {
+        include: [
+          {
+            model: Product
+          }
+        ]
+      }
+    );
+    if (!categoryData) {
+      res.status(404).json({ message: "No category matches ID." });
+      return;
+    }
 });
 
 router.delete('/:id', (req, res) => {
