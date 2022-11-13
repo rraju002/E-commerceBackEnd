@@ -33,7 +33,21 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
-});
+
+  try {
+    const productData = await product.findByPK(
+      req.params.id,
+      {
+        include: [
+          {
+            model: Category,
+          },
+          {
+            model: Tag
+          },
+        ]
+      }
+    );
 
 // create new product
 router.post('/', (req, res) => {
