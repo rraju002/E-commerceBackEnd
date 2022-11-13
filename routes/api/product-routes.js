@@ -48,6 +48,16 @@ router.get('/:id', (req, res) => {
         ]
       }
     );
+    if (!productData) {
+      res.status(404).json({ message:"No results"});
+      return;
+    } else {
+      res.status(200).json(productData);
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // create new product
 router.post('/', (req, res) => {
@@ -125,6 +135,21 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  try {
+    const productData = await product.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!productData) {
+      res.status(404).json({ message:"No results"});
+    return;
+    } else {
+      res.status(200).json(productData);
+  }
+  } catch (err) {
+    res.status(500).json({ message:"No results"})
+  }
 });
 
 module.exports = router;
