@@ -71,7 +71,12 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new category
-});
+  try{
+    const checkData = await Category.findOne({
+      where: {
+        category_name: req.body.category_name
+      }
+    });
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
