@@ -7,6 +7,35 @@ router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
 });
+try {
+  const categoryData = await Category.findAll({
+    include: [
+      {
+        model: Product,
+      }
+    ]
+  });
+  if (!categoryData) {
+    res.status(404).json({ message: "No categories available"});
+  }
+  res.status(200).json(categoryData);
+} catch (err) {
+  res.status(404).json(err);
+};
+
+router.post('/', async(req, res)=> {
+  //build a new category 
+  try {
+    //check to see if category exists in db 
+    const checkData = await Category.findOne({
+      where: {
+        category_name: req.body.category_name
+      }
+    });
+    if (checkData){
+      res.status(404).json({ message:"Category already exists in the database"});
+      return;
+    };
 
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
