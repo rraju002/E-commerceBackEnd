@@ -77,6 +77,12 @@ router.post('/', (req, res) => {
         category_name: req.body.category_name
       }
     });
+    //send success msg
+    if (checkData) {
+      res.status(200).json({ message:"Success!"});
+    } catch (err) {
+      res.status(400).json(err)
+    }
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
