@@ -101,9 +101,37 @@ router.put('/:id', (req, res) => {
       return;
     }
 });
-
+//Update the row
+    const updateData = await Category.update(
+      req.body,
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+    res.status(200).json(updateData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+  try {
+    const categoryData = await Category.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!categoryData) {
+      res.status(404).json({ message: "No results"});
+      return;
+    } else {
+      res.status(200).json(categoryData);
+    }
+  } catch (err) {
+    res.status(200).json(err);
+  }
 });
 
 module.exports = router;
